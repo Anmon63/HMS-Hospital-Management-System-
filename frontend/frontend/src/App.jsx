@@ -1,37 +1,29 @@
-import { useState} from 'react'
-import './App.css'
-import axios from 'axios'
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Doctor from "./components/doctor"; // Import Doctor.jsx
+import DoctorDetails from "./components/doctordet"; // Import DoctorDetails.jsx
+import Nurse from "./components/nurse"; // Import Nurse.jsx
+import NurseDetails from "./components/nursedet";
 
 function App() {
-  const [count, setCount] = useState([])
-  const handleLoad=() => {
-    axios.get('http://127.0.0.1:8001/patientget/')
-    .then(res=>setCount(res.data))
-    .then(console.log(count))
-    .catch(err=>console.error(err))
-  }
-
   return (
-    <>
-      {count.map((patient) => {
-        return (
-          <table>
-            <tbody>
-            <tr>
-            <th>Name</th>
-            <th>Age</th>
-            </tr>
-              <tr>
-                <td key={patient.id}>{patient.name}</td>
-                <td>{patient.age}</td>
-              </tr>
-            </tbody>
-          </table>
-        )
-      })}
-      <button onClick={handleLoad}>Get Report</button>
-    </>
-  )
-}
+    <Router>
+      <nav> 
+        <Link to="/doctor">Doctor</Link>|
+        <Link to="/doctordet">Doctor Details</Link>|
+        <Link to="/nurse">Nurse</Link>|
+        <Link to="/nursedet">Nurse Details</Link>|
+        <a href="http://127.0.0.1:8004/patientdet/">Patient Details</a>|
+        <a href="http://127.0.0.1:8004/home/">Home</a>
+      </nav>
 
+      <Routes>
+        <Route path="/doctor" element={<Doctor />} />
+        <Route path="/doctordet" element={<DoctorDetails />} />
+        <Route path="/nurse" element={<Nurse />} />
+        <Route path="/nursedet" element={<NurseDetails />} />
+        {/* Add more routes as needed */}
+      </Routes>
+    </Router>
+  );
+}
 export default App
