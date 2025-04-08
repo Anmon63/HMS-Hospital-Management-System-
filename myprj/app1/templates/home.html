@@ -12,6 +12,9 @@
     <body>
         <nav>
             <button class="patientdet"><a href="{% url 'patientdet' %}">Patient Details</a></button>
+            <button onclick="window.location.href='{% url 'go_to_doctor' %}';">View Doctors</button>
+            <button onclick="window.location.href='{% url 'reg_new_doctor' %}';">Register New Doctor</button>
+            <button onclick="window.location.href='{% url 'reg_new_nurse' %}';">Register New Nurse</button>
             <button class="logout"><a href="{% url 'logout' %}">Logout</a></button>
         </nav>
         <form action="{% url 'add_patient' %}" method="post" enctype="multipart/form-data">
@@ -21,8 +24,44 @@
                 <input type="text" placeholder="Enter the Patient name" name="name"><br>
                 <label for="age">Age:</label>
                 <input type="number" placeholder="Enter the Patient Age" name="age"><br>
+                <label for="Department">Choose Department:</label>
+                    <select name="department" id="department">
+                        {% for department in department %}
+                            <option value="{{ department }}">{{ department }}</option>
+                        {% endfor %}
+                    </select>
+                <label for="Doctor">Choose Doctor:</label>
+                    <select name="dname"id="doctor">
+                        {% for dname in doctor %}
+                            <option value="{{ dname }}">{{ dname }}</option>
+                        {% endfor %}
+                    </select><br>
                 <button type="submit">Add Patient</button>
         </form>
+        <script>
+            document.getElementById("department").addEventListener("change", function() {
+                var department = this.value;
+                var doctorDropdown = document.getElementById("doctor");
+            
+                // Clear existing doctor options
+                doctorDropdown.innerHTML = '<option value="">Select a Doctor</option>';
+            
+                if (department) {
+                    fetch(`/get_doctors/?department=${department}`)  // Fetch doctors dynamically
+                        .then(response => response.json())
+                        .then(data => {
+                            data.doctors.forEach(function(doctor) {
+                                var option = document.createElement("option");
+                                option.value = doctor;
+                                option.textContent = doctor;
+                                doctorDropdown.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error("Error fetching doctors:", error));
+                }
+            });
+            </script>
+            
         <style>
             body{
                 background-image: url("{% static 'images/home.png' %}");

@@ -17,6 +17,7 @@
                 <th>Patient ID</th>
                 <th>Patient Name</th>
                 <th>Patient Age</th>
+                <th>Department</th>
                 <th>Actions</th>
             </tr>
             {% for patient in patients%}
@@ -24,6 +25,8 @@
                 <td>{{patient.id}}</td>
                 <td>{{patient.name}}</td>
                 <td>{{patient.age}}</td>
+                <td>{{patient.department}}</td>
+                <td>{{patient.dname}}</td>
                 <td><button class="direct"><a href="{% url 'upd_patient' patient.id %}">Update</a></button>
                 <button class="direct"><a href="{% url 'del_patient' patient.id %}">Delete</a></button></td>
             </tr>

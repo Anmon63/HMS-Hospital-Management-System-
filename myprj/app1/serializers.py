@@ -10,3 +10,8 @@ class Doctor_szr(serializers.ModelSerializer):
     class Meta:
         model = Doctor
         fields = '__all__'
+    
+class Nurse_szr(serializers.ModelSerializer):
+    class Meta:
+        model = Nurse
+        fields = '__all__'
